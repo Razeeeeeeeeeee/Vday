@@ -55,7 +55,7 @@ export default function ValentineProposal() {
   >("initial");
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [count, setCount] = useState(0);
-  const [animations, setAnimations] = useState<{
+  const [, setAnimations] = useState<{
     Book: boolean;
     beef: boolean;
     waves: boolean;
@@ -72,27 +72,37 @@ export default function ValentineProposal() {
 
   const useFloatingAnimation = () => {
     const [position, setPosition] = useState({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      dx: Math.random() * 2 + 1,
-      dy: Math.random() * 2 + 1,
+      x: 0,
+      y: 0,
+      dx: 0,
+      dy: 0,
     });
 
     useEffect(() => {
-      const move = () => {
-        setPosition((prev) => {
-          const newX = prev.x + prev.dx;
-          const newY = prev.y + prev.dy;
-
-          if (newX <= 0 || newX >= window.innerWidth - 40) prev.dx *= -1;
-          if (newY <= 0 || newY >= window.innerHeight - 40) prev.dy *= -1;
-
-          return { ...prev, x: newX, y: newY };
+      if (typeof window !== undefined) {
+        setPosition({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          dx: Math.random() * 2 + 1,
+          dy: Math.random() * 2 + 1,
         });
-      };
+      }
+      if (typeof window !== undefined) {
+        const move = () => {
+          setPosition((prev) => {
+            const newX = prev.x + prev.dx;
+            const newY = prev.y + prev.dy;
 
-      const interval = setInterval(move, 30);
-      return () => clearInterval(interval);
+            if (newX <= 0 || newX >= window.innerWidth - 40) prev.dx *= -1;
+            if (newY <= 0 || newY >= window.innerHeight - 40) prev.dy *= -1;
+
+            return { ...prev, x: newX, y: newY };
+          });
+        };
+
+        const interval = setInterval(move, 30);
+        return () => clearInterval(interval);
+      }
     }, []);
 
     return position;
@@ -156,8 +166,8 @@ export default function ValentineProposal() {
       <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4 relative overflow-hidden">
         {showConfetti && (
           <Confetti
-            width={window.innerWidth}
-            height={window.innerHeight}
+            width={typeof window !== undefined ? window.innerWidth : 0}
+            height={typeof window !== undefined ? window.innerHeight : 0}
             recycle={false}
             numberOfPieces={200}
           />
