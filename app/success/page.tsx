@@ -21,16 +21,21 @@ interface FloatingIconProps {
 
 const FloatingIcon = memo(
   ({ Icon, color, seed, speed, windowSize }: FloatingIconProps) => {
-    const x = Math.abs(Math.sin(seed)) * (windowSize.width - 100);
-    const y = Math.abs(Math.cos(seed)) * (windowSize.height - 100);
+    // Adjust icon position calculation based on screen size
+    const maxOffset = Math.min(windowSize.width, windowSize.height) * 0.8;
+    const x = Math.abs(Math.sin(seed)) * (maxOffset - 50);
+    const y = Math.abs(Math.cos(seed)) * (maxOffset - 50);
+
+    // Adjust icon size based on screen width
+    const iconSize = windowSize.width < 640 ? "w-6 h-6" : "w-8 h-8";
 
     return (
       <motion.div
         className="absolute cursor-pointer"
         initial={{ x, y }}
         animate={{
-          x: [x, x + 50, x],
-          y: [y, y + 50, y],
+          x: [x, x + (windowSize.width < 640 ? 25 : 50), x],
+          y: [y, y + (windowSize.width < 640 ? 25 : 50), y],
         }}
         transition={{
           duration: 4 / speed,
@@ -40,7 +45,7 @@ const FloatingIcon = memo(
         }}
         whileHover={{ scale: 1.1, rotate: 10 }}
       >
-        <Icon className={`w-8 h-8 ${color}`} />
+        <Icon className={`${iconSize} ${color}`} />
       </motion.div>
     );
   },
@@ -55,11 +60,8 @@ export default function FinalScreen() {
   });
   const [isClient, setIsClient] = useState(false);
 
-  // Initialize client-side state
   useEffect(() => {
     setIsClient(true);
-
-    // Create audio element with proper error handling
 
     const handleResize = () => {
       setWindowSize({
@@ -74,6 +76,7 @@ export default function FinalScreen() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   if (!isClient) {
     return null;
   }
@@ -86,61 +89,66 @@ export default function FinalScreen() {
             width={windowSize.width}
             height={windowSize.height}
             recycle={true}
-            numberOfPieces={200}
+            numberOfPieces={windowSize.width < 640 ? 100 : 200}
           />
         )}
 
-        <FloatingIcon
-          Icon={Heart}
-          color="text-pink-400"
-          seed={1}
-          speed={2}
-          windowSize={windowSize}
-        />
-        <FloatingIcon
-          Icon={Star}
-          color="text-yellow-400"
-          seed={2}
-          speed={1.5}
-          windowSize={windowSize}
-        />
-        <FloatingIcon
-          Icon={Music}
-          color="text-blue-400"
-          seed={3}
-          speed={1.8}
-          windowSize={windowSize}
-        />
-        <FloatingIcon
-          Icon={Gift}
-          color="text-purple-400"
-          seed={4}
-          speed={1.2}
-          windowSize={windowSize}
-        />
-        <FloatingIcon
-          Icon={Sparkles}
-          color="text-amber-400"
-          seed={5}
-          speed={1.7}
-          windowSize={windowSize}
-        />
+        {/* Adjust number of floating icons for mobile */}
+        {windowSize.width >= 480 && (
+          <>
+            <FloatingIcon
+              Icon={Heart}
+              color="text-pink-400"
+              seed={1}
+              speed={2}
+              windowSize={windowSize}
+            />
+            <FloatingIcon
+              Icon={Star}
+              color="text-yellow-400"
+              seed={2}
+              speed={1.5}
+              windowSize={windowSize}
+            />
+            <FloatingIcon
+              Icon={Music}
+              color="text-blue-400"
+              seed={3}
+              speed={1.8}
+              windowSize={windowSize}
+            />
+            <FloatingIcon
+              Icon={Gift}
+              color="text-purple-400"
+              seed={4}
+              speed={1.2}
+              windowSize={windowSize}
+            />
+            <FloatingIcon
+              Icon={Sparkles}
+              color="text-amber-400"
+              seed={5}
+              speed={1.7}
+              windowSize={windowSize}
+            />
+          </>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-xl"
+          className="w-full max-w-xl px-4 sm:px-0"
         >
           <motion.div
-            className="bg-white rounded-3xl p-10 shadow-xl relative z-10"
+            className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl relative z-10"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", duration: 0.8 }}
           >
-            <div className="space-y-8 text-center">
+            <div className="space-y-6 sm:space-y-8 text-center">
               <motion.h1
-                className="text-4xl font-light tracking-tight text-gray-900"
+                className="text-2xl sm:text-4xl font-light tracking-tight text-gray-900"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -149,7 +157,7 @@ export default function FinalScreen() {
               </motion.h1>
 
               <motion.p
-                className="text-xl text-gray-600"
+                className="text-lg sm:text-xl text-gray-600"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
@@ -161,7 +169,7 @@ export default function FinalScreen() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
-                className="text-lg text-gray-700"
+                className="text-base sm:text-lg text-gray-700"
               >
                 <p>But wait, there&apos;s one final surprise...</p>
                 <motion.p
@@ -180,10 +188,10 @@ export default function FinalScreen() {
               </motion.div>
 
               <motion.div
-                className="text-md text-gray-500 italic"
+                className="text-sm sm:text-md text-gray-500 italic"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 10 }}
+                transition={{ delay: 8 }}
               >
                 <p>Would you do me the honor of going on a date tonight,</p>
                 <p>wearing something special I got for you?</p>

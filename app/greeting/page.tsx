@@ -108,6 +108,8 @@ export default function ValentineProposal() {
     return position;
   };
 
+  const iconClasses = "w-6 h-6 md:w-8 md:h-8";
+
   const BookPosition = useFloatingAnimation();
   const beefPosition = useFloatingAnimation();
   const wavePosition = useFloatingAnimation();
@@ -163,7 +165,7 @@ export default function ValentineProposal() {
   return (
     <>
       <title>Hellooooo valentine</title>
-      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-2 md:p-4 relative overflow-hidden">
         {showConfetti && (
           <Confetti
             width={typeof window !== undefined ? window.innerWidth : 0}
@@ -187,18 +189,18 @@ export default function ValentineProposal() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                  className="fixed inset-0 bg-black/20 backdrop-blur-sm"
                 />
                 <motion.div
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                   exit={{ opacity: 0, scale: 0 }}
-                  className="fixed inset-0 flex justify-center items-center z-50"
+                  className="fixed inset-0 flex justify-center items-center z-50 px-4"
                 >
-                  <Card className="border-none w-96">
-                    <CardContent className="p-8">
-                      <p className="text-2xl font-light text-center">
+                  <Card className="border-none w-[90%] md:w-96">
+                    <CardContent className="p-4 md:p-8">
+                      <p className="text-xl md:text-2xl font-light text-center">
                         {animatetext}
                       </p>
                       <div className="mt-4 text-center">
@@ -225,7 +227,7 @@ export default function ValentineProposal() {
                 unlockStory("Book");
               }}
             >
-              <BookHeart className="w-8 h-8 text-rose-400" />
+              <BookHeart className={`${iconClasses} w-8 h-8 text-rose-400`} />
             </motion.div>
 
             <motion.div
@@ -237,7 +239,9 @@ export default function ValentineProposal() {
                 unlockStory("volley");
               }}
             >
-              <Volleyball className="w-8 h-8 text-yellow-700" />
+              <Volleyball
+                className={`${iconClasses} w-8 h-8 text-yellow-700`}
+              />
             </motion.div>
 
             <motion.div
@@ -249,7 +253,7 @@ export default function ValentineProposal() {
                 unlockStory("beef");
               }}
             >
-              <Beef className="w-8 h-8 text-red-600" />
+              <Beef className={`${iconClasses} w-8 h-8 text-red-600`} />
             </motion.div>
 
             <motion.div
@@ -261,18 +265,18 @@ export default function ValentineProposal() {
                 unlockStory("waves");
               }}
             >
-              <Waves className="w-8 h-8 text-blue-400" />
+              <Waves className={`${iconClasses} w-8 h-8 text-blue-400`} />
             </motion.div>
 
             <motion.div
-              className="bg-white rounded-3xl p-10 shadow-xl relative z-10"
+              className="bg-white rounded-3xl p-4 md:p-10 shadow-xl relative z-10"
               layoutId="mainCard"
             >
               <div className="space-y-8 text-center">
                 {acceptanceStage === "initial" && (
                   <>
                     <motion.h1
-                      className="text-4xl font-light tracking-tight text-gray-900"
+                      className="text-2xl md:text-4xl font-light tracking-tight text-gray-900"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 1 }}
@@ -280,7 +284,7 @@ export default function ValentineProposal() {
                       Hey, it&apos;s me...
                     </motion.h1>
                     <motion.p
-                      className="text-md text-gray-600"
+                      className="text-sm md:text-md text-gray-600"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 2 }}
@@ -296,9 +300,9 @@ export default function ValentineProposal() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          className="bg-gray-50 rounded-2xl p-6 text-center"
+                          className="bg-gray-50 rounded-2xl p-3 md:p-6 text-center"
                         >
-                          <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          <h3 className="text-base md:text-lg font-medium text-gray-900 mb-2">
                             {currentStory.title}
                           </h3>
                           <p className="text-gray-600">
@@ -307,17 +311,17 @@ export default function ValentineProposal() {
                           <Image
                             src={currentStory.image}
                             alt="story image"
-                            width={250} // Adjust width as necessary
-                            height={150} // Adjust height as necessary
-                            className="mx-auto my-5 max-w-full h-auto"
+                            width={200} // Adjust width as necessary
+                            height={120} // Adjust height as necessary
+                            className="mx-auto my-3 md:my-5 max-w-full h-auto"
                           />
                         </motion.div>
                       )}
                     </AnimatePresence>
 
-                    <div className="flex justify-center gap-4">
+                    <div className="flex justify-center gap-2 md:gap-4">
                       <motion.button
-                        className="px-8 py-3 bg-blue-500 text-white rounded-xl font-medium"
+                        className="px-4 md:px-8 py-2 md:py-3 text-sm md:text-base bg-blue-500 text-white rounded-xl font-medium"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleAcceptance}
@@ -326,7 +330,7 @@ export default function ValentineProposal() {
                       </motion.button>
 
                       <motion.button
-                        className="px-8 py-3 bg-gray-100 text-gray-600 rounded-xl font-medium"
+                        className="px-4 md:px-8 py-2 md:py-3 text-sm md:text-base bg-gray-100 text-gray-600 rounded-xl font-medium"
                         animate={noButtonPosition}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -343,12 +347,12 @@ export default function ValentineProposal() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="space-y-4"
+                    className="space-y-2 md:space-y-4"
                   >
-                    <h2 className="text-3xl font-light text-gray-900">
+                    <h2 className="text-2xl md:text-3xl font-light text-gray-900">
                       Congratulations! 🎉
                     </h2>
-                    <p className="text-xl text-gray-600">
+                    <p className="text-lg md:text-xl text-gray-600">
                       You’ve been promoted to Assistant to the Valentine.
                     </p>
                   </motion.div>
@@ -358,12 +362,12 @@ export default function ValentineProposal() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="space-y-4"
+                    className="space-y-2 md:space-y-4"
                   >
-                    <h2 className="text-2xl font-light text-gray-900">
+                    <h2 className="text-xl md:text-2xl font-light text-gray-900">
                       But wait, there&apos;s more!
                     </h2>
-                    <p className="text-lg text-gray-600">
+                    <p className="text-base md:text-lg text-gray-600">
                       Like a Dunder Mifflin paper trail, follow the clues to
                       discover our story...
                     </p>
@@ -371,12 +375,12 @@ export default function ValentineProposal() {
                       animate={{ y: [0, 10, 0] }}
                       transition={{ repeat: Infinity, duration: 1.5 }}
                     >
-                      <ArrowRight className="w-8 h-8 mx-auto text-blue-500" />
+                      <ArrowRight className="w-6 h-6 md:w-8 md:h-8 mx-auto text-blue-500" />
                     </motion.div>
                   </motion.div>
                 )}
 
-                <div className="text-center text-sm text-gray-400">
+                <div className="text-xs md:text-sm text-gray-400">
                   {discoveredStories.size} / {Object.keys(stories).length}{" "}
                   memories found
                 </div>
